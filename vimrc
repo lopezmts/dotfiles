@@ -26,7 +26,6 @@ Plugin 'ervandew/supertab'
 Plugin 'majutsushi/tagbar'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-"Plugin 'kien/ctrlp.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 
 "Color schema
@@ -35,7 +34,6 @@ Plugin 'chriskempson/base16-vim'
 
 " languages
 Plugin 'tpope/vim-markdown'
-"Plugin 'fatih/vim-go'
 
 
 " All of your Plugins must be added before the following line
@@ -184,6 +182,4 @@ nmap <leader>mq :MarkedQuit<cr>
 " let g:airline_right_sep=''
 let g:airline_powerline_fonts=1
 let g:airline_theme='base16'
-"
-"
 "
