@@ -13,7 +13,7 @@ ZSH_THEME="robbyrussell"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(git vagrant docker)
+plugins=(git vagrant docker aws)
 
 # User configuration
 
