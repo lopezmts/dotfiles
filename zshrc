@@ -42,3 +42,9 @@ export EDITOR='vim'
 # set this to enable solarized vim color schema to work on a terminal
 export TERM="xterm-256color"
 #
+# get random BOFH excuse¬
+function bofh() {¬
+    telnet towel.blinkenlights.nl 666¬
+}¬
+#¬
+
