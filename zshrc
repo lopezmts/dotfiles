@@ -43,8 +43,8 @@ export EDITOR='vim'
 export TERM="xterm-256color"
 #
 # get random BOFH excuse¬
-function bofh() {¬
-    telnet towel.blinkenlights.nl 666¬
-}¬
+function bofh() {
+    telnet towel.blinkenlights.nl 666
+}
 #¬
 
