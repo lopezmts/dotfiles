@@ -3,7 +3,7 @@ export ZSH=/${HOME}/.oh-my-zsh
 
 # Set name of the theme to load.
 #ZSH_THEME="robbyrussell"
-ZSH_THEME="jnrowe"¬
+ZSH_THEME="jnrowe"
 
 
 # Uncomment the following line to display red dots whilst waiting for completion.
