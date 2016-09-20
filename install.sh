@@ -15,7 +15,7 @@ install_stuff(){
 # Are we running ubuntu/debian? if so install the basic stuff
 if [ $OSTYPE = "linux-gnu" ];then
 	echo "Linux OS Detected"
-	if [ $(grep DISTRIB_ID /etc/os-release) = Ubuntu || $(grep DISTRIB_ID /etc/os-release) = Debian ];then
+	if [ $(grep DISTRIB_ID /etc/os-release) = Ubuntu ] || [ $(grep DISTRIB_ID /etc/os-release) = Debian ];then
 		echo "Dpkg system assumed, installing required software..."
 		install_stuff
 	else
@@ -27,9 +27,13 @@ else
 	exit 1
 fi
 
-# Clone dotfiles repo
-echo "Cloning dotfiles repo..."
-git clone https://github.com/lopezmts/dotfiles.git ~/.dotfiles
+# Update dotfiles repo
+echo "Updating dotfiles repo..."
+if [ $PWD != "~/.dotfiles" ];then
+	echo "Not in repo directory?"
+	exit 1
+else git pull
+fi
 
 # Change shell to zsh
 zsh --version 2>&1 >/dev/null
