@@ -6,7 +6,7 @@ echo "Starting dotfiles installation..."
 install_stuff(){
 	sudo apt -f update
 	sudo apt -f install vim
-	sudo apt -f install git 
+#	sudo apt -f install git 
 	sudo apt -f install zsh
 	sudo apt -f install tmux
 	sudo apt -f install byobu
