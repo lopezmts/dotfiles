@@ -13,9 +13,9 @@ install_stuff(){
 }
 
 # Are we running ubuntu/debian? if so install the basic stuff
-if [$OSTYPE = "linux-gnu"];then
+if [ $OSTYPE = "linux-gnu" ];then
 	echo "Linux OS Detected"
-	if [$(grep DISTRIB_ID /etc/os-release) = Ubuntu || $(grep DISTRIB_ID /etc/os-release) = Debian ];then
+	if [ $(grep DISTRIB_ID /etc/os-release) = Ubuntu || $(grep DISTRIB_ID /etc/os-release) = Debian ];then
 		echo "Dpkg system assumed, installing required software..."
 		install_stuff
 	else
@@ -33,19 +33,19 @@ git clone https://github.com/lopezmts/dotfiles.git ~/.dotfiles
 
 # Change shell to zsh
 zsh --version 2>&1 >/dev/null
-if [$? = 0];then
+if [ $? = 0 ];then
 	echo "Setting zsh as default shell"
 	chsh $USER -s $(which zsh)
 else
 	echo "zsh is not installed!"
 	sudo apt -f install zsh && chsh $(USER) -s $(which zsh)
-	if [$? = 1];then 
+	if [ $? = 1 ];then 
 		echo "Failed to install zsh!"
 		zsh_status=failed
 fi
 
 # Install ohmyzsh
-if [$zsh_status != failed];then
+if [ $zsh_status != failed ];then
 	echo "Installing Oh my Zsh..."
 	git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 	# configure zsh
