@@ -54,9 +54,10 @@ fi
 # Install vundle
 echo "Configuring Vim"
 echo "Installing vim plugins"
-mv ~/.vim ~/.vim~
-cp -rp ~/.dotfiles/vim ~/.vim
-# Now that we have the plugin manager, link the vimrc file and install plugins¬
+cp -rp ~/.vim ~/.vim~
+#cp -rp ~/.dotfiles/vim ~/.vim
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+# Now that we have the plugin manager, link the vimrc file and install plugins
 mv ~/.vimrc ~/vimrc~
 ln -s ~/.dotfiles/vimrc ~/.vimrc
 #echo "Installing Vim Plugins..."
