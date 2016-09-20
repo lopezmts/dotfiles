@@ -37,6 +37,7 @@ else
 	sudo apt -yq install zsh && chsh $(USER) -s $(which zsh)
 	if [ $? = 1 ];then 
 		echo "Failed to install zsh!"
+		zsh_status=failed
 		exit 1
 	fi
 fi
