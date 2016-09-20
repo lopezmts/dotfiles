@@ -1,23 +1,23 @@
 #!/usr/bin/bash
 #
+
 # Dotfiles installer
 echo "Starting dotfiles installation..."
-
 install_stuff(){
-	sudo apt -f update
-	sudo apt -f install vim
-#	sudo apt -f install git 
-	sudo apt -f install zsh
-	sudo apt -f install tmux
-	sudo apt -f install byobu
+	sudo apt -yq update 
+	sudo apt -yq install vim zsh tmux byobu
 }
 
 # Are we running ubuntu/debian? if so install the basic stuff
 if [ $OSTYPE = "linux-gnu" ];then
 	echo "Linux OS Detected"
-	if [ $(grep DISTRIB_ID /etc/os-release) = Ubuntu ] || [ $(grep DISTRIB_ID /etc/os-release) = Debian ];then
+	if [ $(grep NAME /etc/os-release | awk -F\" '{print $2}'| head -1) = "Ubuntu" ] || [ $(grep NAME /etc/os-release | awk -F\" '{print $2}'| head -1) = "Debian" ];then
 		echo "Dpkg system assumed, installing required software..."
 		install_stuff
+		if [ $? = 1 ];then
+			echo "Installation error"
+			exit 1
+		fi
 	else
 		echo "Non dpkg system, software won't be installed"
 	fi
@@ -27,25 +27,18 @@ else
 	exit 1
 fi
 
-# Update dotfiles repo
-echo "Updating dotfiles repo..."
-if [ $PWD != "~/.dotfiles" ];then
-	echo "Not in repo directory?"
-	exit 1
-else git pull
-fi
-
 # Change shell to zsh
 zsh --version 2>&1 >/dev/null
 if [ $? = 0 ];then
 	echo "Setting zsh as default shell"
 	chsh $USER -s $(which zsh)
 else
-	echo "zsh is not installed!"
-	sudo apt -f install zsh && chsh $(USER) -s $(which zsh)
+	echo "Installing zsh"
+	sudo apt -yq install zsh && chsh $(USER) -s $(which zsh)
 	if [ $? = 1 ];then 
 		echo "Failed to install zsh!"
-		zsh_status=failed
+		exit 1
+	fi
 fi
 
 # Install ohmyzsh
