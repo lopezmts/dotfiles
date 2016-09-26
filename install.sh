@@ -1,67 +1,77 @@
 #!/usr/bin/bash
+
 #
+# Lazy script to install my dotfiles...
+#
+
+software_to_install="vim zsh tmux byobu"
 
 # Dotfiles installer
 echo "Starting dotfiles installation..."
+
+# Some functions
+
 install_stuff(){
-	sudo apt -yq update 
-	sudo apt -yq install vim zsh tmux byobu
+
+	sudo apt -yq update &>/dev/null
+	for software in $software_to_install
+	do
+		echo "Installing $software"
+		sudo apt -yq $software &>/dev/null
+		if [ $? != 0 ];then
+			echo "$software installed OK"
+		else 
+			echo "Failed to install $software"
+		fi
+	done
 }
 
 # Are we running ubuntu/debian? if so install the basic stuff
 if [ $OSTYPE = "linux-gnu" ];then
-	echo "Linux OS Detected"
 	if [ $(grep NAME /etc/os-release | awk -F\" '{print $2}'| head -1) = "Ubuntu" ] || [ $(grep NAME /etc/os-release | awk -F\" '{print $2}'| head -1) = "Debian" ];then
-		echo "Dpkg system assumed, installing required software..."
 		install_stuff
-		if [ $? = 1 ];then
-			echo "Installation error"
-			exit 1
-		fi
 	else
-		echo "Non dpkg system, software won't be installed"
+		echo "Non dpkg system; Software won't be installed because I am lazy to port this script to any other package
+		management system"
 	fi
 else
-	echo "Failed to identify running OS as Linux."
-	echo "Script will stop now!"
+	echo "OS is not Linux? Really?"
 	exit 1
 fi
 
 # Change shell to zsh
-zsh --version 2>&1 >/dev/null
+type zsh &>/dev/null
 if [ $? = 0 ];then
 	echo "Setting zsh as default shell"
-	chsh $USER -s $(type -p zsh)
+	chsh $USER -s $(type -p zsh | awk '{print $3}')
 else
-	echo "Installing zsh"
-	sudo apt -yq install zsh && chsh $(USER) -s $(type -p zsh)
-	if [ $? = 1 ];then 
-		echo "Failed to install zsh!"
-		zsh_status=failed
-		exit 1
-	fi
+	echo "zsh not found!";exit 1
 fi
 
 # Install ohmyzsh
-if [ $zsh_status != failed ];then
-	echo "Installing Oh my Zsh..."
-	git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-	# configure zsh
-	mv ~/.zshrc ~/.zshrc~
-	ln -s ~/.dotfiles/zshrc ~/.zshrc
-fi
+echo "Installing Oh my Zsh..."
+git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+mv -f ~/.zshrc ~/.zshrc~ &>/dev/null
+ln -s ~/.dotfiles/zshrc ~/.zshrc
 
-# Vim setup
 # Install vundle
-echo "Configuring Vim"
 echo "Installing vim plugins"
-cp -rp ~/.vim ~/.vim~
-#cp -rp ~/.dotfiles/vim ~/.vim
+if [ -d ~/.vim/bundle ];then
+	mv -f ~/.vim/bundle ~/.vim/bundle~
+fi
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
 # Now that we have the plugin manager, link the vimrc file and install plugins
-mv ~/.vimrc ~/vimrc~
+if [ -f ~/.vimrc ];then
+	mv -f ~/.vimrc ~/.vimrc~
+fi
 ln -s ~/.dotfiles/vimrc ~/.vimrc
-#echo "Installing Vim Plugins..."
 #vim +PluginInstall +qall
+
+# install tmux config
+if [ -f ~/.tmux.conf];then
+	mv -f ~/.tmux.conf ~/.tmux.conf~
+fi
+ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf
+
 echo "Dotfiles Installation completed."
-# end
