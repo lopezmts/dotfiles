@@ -31,10 +31,10 @@ fi
 zsh --version 2>&1 >/dev/null
 if [ $? = 0 ];then
 	echo "Setting zsh as default shell"
-	chsh $USER -s $(which zsh)
+	chsh $USER -s $(type -p zsh)
 else
 	echo "Installing zsh"
-	sudo apt -yq install zsh && chsh $(USER) -s $(which zsh)
+	sudo apt -yq install zsh && chsh $(USER) -s $(type -p zsh)
 	if [ $? = 1 ];then 
 		echo "Failed to install zsh!"
 		zsh_status=failed
